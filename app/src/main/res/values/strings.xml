@@ -10,5 +10,6 @@
     <string name="drinkLatte">Caffe Latte @ £4.50</string>
     <string name="drinkCappuccino">Cappuccino @ £5.50</string>
     <string name="label_total">TOTAL PRICE</string>
+    <string name="label_toppings">Choose Toppings</string>
     <string name="msgAlert">Please add an item first</string>
 </resources>

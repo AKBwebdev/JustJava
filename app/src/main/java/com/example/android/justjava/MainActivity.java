@@ -178,5 +178,8 @@ public class MainActivity extends AppCompatActivity {
 
         TextView thankTextView = (TextView) findViewById(R.id.labelThanks);
         thankTextView.setVisibility(View.VISIBLE);
+
+        View targetView = findViewById(R.id.labelThanks);
+        targetView.getParent().requestChildFocus(targetView,targetView);
     }
 }
