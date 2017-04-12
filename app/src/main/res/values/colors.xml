@@ -7,6 +7,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorOrderButton">#A87039</color>
     <color name="drinkChoice">#D7CCC8</color>
-    <color name="colorAlert">#FFCDDD2</color>
+    <color name="colorAlert">#FFCDD2</color>
     <color name="colorMsgAlert">#D50000</color>
 </resources>

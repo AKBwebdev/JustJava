@@ -240,7 +240,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mTextViewMsg.setVisibility(View.VISIBLE);
 
-    /*    View targetView = findViewById(R.id.labelThanks);
-        targetView.getParent().requestChildFocus(targetView,targetView);*/
     }
 }
