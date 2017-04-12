@@ -8,14 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="logoImageView">
-        <item name="android:layout_width">@dimen/dimen_200dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
-        <item name="android:scaleType">centerInside</item>
+    <style name="LogoImageView">
+        <item name="android:layout_width">@dimen/logo_width</item>
+        <item name="android:layout_height">@dimen/logo_height</item>
+        <item name="android:layout_marginBottom">@dimen/logo_bottom_margin</item>
+        <item name="android:layout_marginTop">@dimen/logo_top_margin</item>
     </style>
 
-    <style name="rowDrink">
+    <style name="RowDrink">
         <item name="android:background">@color/drinkChoice</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">@dimen/font_small</item>
@@ -26,31 +26,31 @@
         <item name="android:paddingLeft">@dimen/button_margin</item>
     </style>
 
-    <style name="buttonQty">
+    <style name="ButtonQuantity">
         <item name="android:layout_width">@dimen/button_size</item>
         <item name="android:layout_height">@dimen/button_size</item>
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:textSize">@dimen/fontsize_16sp</item>
+        <item name="android:textSize">@dimen/font_medium</item>
     </style>
 
-    <style name="quantity">
+    <style name="TextQuantity">
         <item name="android:layout_marginLeft">@dimen/button_margin</item>
         <item name="android:layout_marginRight">@dimen/button_margin</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
         <item name="android:paddingTop">@dimen/activity_horizontal_margin</item>
-        <item name="android:textSize">@dimen/fontsize_16sp</item>
+        <item name="android:textSize">@dimen/font_medium</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="row">
+    <style name="TableRow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="buttonControl">
+    <style name="ButtonControl">
         <item name="android:layout_width">@dimen/dimen_250dp</item>
         <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
         <item name="android:layout_height">@dimen/button_size</item>
@@ -60,7 +60,7 @@
         <item name="android:layout_marginBottom">@dimen/activity_vertical_margin</item>
     </style>
 
-    <style name="label">
+    <style name="TextLabel">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_horizontal</item>
@@ -68,16 +68,16 @@
         <item name="android:paddingBottom">@dimen/dimen_5dp</item>
         <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">@dimen/fontsize_16sp</item>
+        <item name="android:textSize">@dimen/font_medium</item>
         <item name="android:visibility">invisible</item>
     </style>
 
-    <style name="output">
+    <style name="PanelOutput">
         <item name="android:paddingBottom">@dimen/dimen_5dp</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="alert">
+    <style name="MsgAlert">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/button_size</item>
         <item name="android:gravity">center_horizontal|center_vertical</item>

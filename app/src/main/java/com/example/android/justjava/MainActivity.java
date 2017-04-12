@@ -3,140 +3,210 @@ package com.example.android.justjava;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import static com.example.android.justjava.R.id.totallabel;
 
 /**
  * This app displays an order form to order coffee.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    String [] drinkChoice = new String[3];
-    int [] drinkQty = new int[3];
-    double[] drinkPrice = {3.50, 4.50, 5.50};
-    String [] resourceArr = new String[3];
+    private String [] mDrinkChoice = new String[3];
+    private int [] mDrinkQty = new int[3];
+    private double[] mDrinkPrice = {3.50, 4.50, 5.50};
+    private String [] mResourceArr = new String[3];
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putIntArray("drinkQtySaved", drinkQty);
-        outState.putStringArray("resourceSaved", resourceArr);
-        outState.putStringArray("choiceSaved", drinkChoice);
-        super.onSaveInstanceState(outState);
-    }
+    // SavedInstance variables
+    private static final String STATE_DRINKQTY = "mDrinkQtySaved";
+    private static final String STATE_RESOURCE = "resourceSaved";
+    private static final String STATE_CHOICE = "choiceSaved";
+
+    // All UI components
+    private TextView mTextViewCoffee;
+    private TextView mTextViewLatte;
+    private TextView mTextViewCappuccino;
+    private TextView mTextViewCoffeeQty;
+    private TextView mTextViewLatteQty;
+    private TextView mTextViewCappuccinoQty;
+    private TextView mTextViewAlert;
+    private TextView mTextViewTitleInvoice;
+    private TextView mTextViewSelectedDrinks;
+    private TextView mTextViewSelectedDrinksPrice;
+    private TextView mTextViewTotal;
+    private TextView mTextViewTotalPrice;
+    private TextView mTextViewMsg;
+
+    private Button mButtonDecreaseCoffee;
+    private Button mButtonIncreaseCoffee;
+    private Button mButtonDecreaseLatte;
+    private Button mButtonIncreaseLatte;
+    private Button mButtonDecreaseCappuccino;
+    private Button mButtonIncreaseCappuccino;
+    private Button mSubmit;
+
+    private TableLayout mTableInvoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize all UI components
+        mTextViewCoffee = (TextView) findViewById(R.id.text_coffee);
+        mTextViewLatte = (TextView) findViewById(R.id.text_latte);
+        mTextViewCappuccino = (TextView) findViewById(R.id.text_cappuccino);
+        mTextViewCoffeeQty = (TextView) findViewById(R.id.text_quantity_coffee);
+        mTextViewLatteQty = (TextView) findViewById(R.id.text_quantity_latte);
+        mTextViewCappuccinoQty = (TextView) findViewById(R.id.text_quantity_cappuccino);
+        mTextViewTitleInvoice = (TextView) findViewById(R.id.text_title_invoice);
+        mTextViewAlert = (TextView) findViewById(R.id.text_alert);
+        mTextViewSelectedDrinks = (TextView) findViewById(R.id.text_selected_drinks);
+        mTextViewSelectedDrinksPrice = (TextView) findViewById(R.id.text_selected_drinks_price);
+        mTextViewTotal = (TextView) findViewById(R.id.text_title_total);
+        mTextViewTotalPrice = (TextView) findViewById(R.id.text_total_price);
+        mTextViewMsg = (TextView) findViewById(R.id.text_title_thanks);
+
+        mButtonDecreaseCoffee = (Button) findViewById(R.id.button_coffee_decrease);
+        mButtonIncreaseCoffee = (Button) findViewById(R.id.button_coffee_increase);
+        mButtonDecreaseLatte = (Button) findViewById(R.id.button_latte_decrease);
+        mButtonIncreaseLatte = (Button) findViewById(R.id.button_latte_increase);
+        mButtonDecreaseCappuccino = (Button) findViewById(R.id.button_cappuccino_decrease);
+        mButtonIncreaseCappuccino = (Button) findViewById(R.id.button_cappuccino_increase);
+        mSubmit = (Button) findViewById(R.id.button_submit_order);
+
+        mTableInvoice = (TableLayout) findViewById(R.id.table_invoice);
+
+        mButtonDecreaseCoffee.setOnClickListener(this);
+        mButtonIncreaseCoffee.setOnClickListener(this);
+        mButtonDecreaseLatte.setOnClickListener(this);
+        mButtonIncreaseLatte.setOnClickListener(this);
+        mButtonDecreaseCappuccino.setOnClickListener(this);
+        mButtonIncreaseCappuccino.setOnClickListener(this);
+        mSubmit.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putIntArray("STATE_DRINKQTY", mDrinkQty);
+        outState.putStringArray("STATE_RESOURCE", mResourceArr);
+        outState.putStringArray("STATE_CHOICE", mDrinkChoice);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
-
-            drinkQty = savedInstanceState.getIntArray("drinkQtySaved");
-            resourceArr = savedInstanceState.getStringArray("resourceSaved");
-            drinkChoice = savedInstanceState.getStringArray("choiceSaved");
+            mDrinkQty = savedInstanceState.getIntArray("STATE_DRINKQTY");
+            mResourceArr = savedInstanceState.getStringArray("STATE_RESOURCE");
+            mDrinkChoice = savedInstanceState.getStringArray("STATE_CHOICE");
 
             for (int i = 0; i < 3; i++) {
-                display(drinkQty[i], resourceArr[i]);
+                display(mDrinkQty[i], mResourceArr[i]);
             }
-            if ((drinkQty[0] == 0) && (drinkQty[1] == 0) && (drinkQty[2] == 0)) {
+            if ((mDrinkQty[0] == 0) && (mDrinkQty[1] == 0) && (mDrinkQty[2] == 0)) {
                 displayAlert();
             }
             displayInvoice();
         }
     }
 
-    /** This method increments the quantity on screen. **/
-    public void increment(View view) {
+    /**
+     * Invokes methods for individual call to action buttons
+     * @param view
+     */
+    @Override
+    public void onClick(View view) {
         String resource = "";
         int quantity = 0;
 
         switch (view.getId()) {
-            case R.id.coffee_increase:
-                drinkChoice[0] = getString(R.string.drinkCoffee);
-                drinkQty[0] = drinkQty[0] + 1;
-                quantity = drinkQty[0];
-                resourceArr[0] = resource = "quantity_coffee";
+
+            case R.id.button_coffee_increase:
+                mDrinkChoice[0] = getString(R.string.label_coffee);
+                mDrinkQty[0] = mDrinkQty[0] + 1;
+                quantity = mDrinkQty[0];
+                mResourceArr[0] = resource = getString(R.string.label_coffee_qty);
+                display(quantity, resource);
                 break;
-            case R.id.latte_increase:
-                drinkChoice[1] = getString(R.string.drinkLatte);
-                drinkQty[1] = drinkQty[1] + 1;
-                quantity = drinkQty[1];
-                resourceArr[1] = resource = "quantity_latte";
+            case R.id.button_latte_increase:
+                mDrinkChoice[1] = getString(R.string.label_latte);
+                mDrinkQty[1] = mDrinkQty[1] + 1;
+                quantity = mDrinkQty[1];
+                mResourceArr[1] = resource = getString(R.string.label_latte_qty);
+                display(quantity, resource);
                 break;
-            case R.id.cappuccino_increase:
-                drinkChoice[2] = getString(R.string.drinkCappuccino);
-                drinkQty[2] = drinkQty[2] + 1;
-                quantity = drinkQty[2];
-                resourceArr[2] = resource = "quantity_cappuccino";
+            case R.id.button_cappuccino_increase:
+                mDrinkChoice[2] = getString(R.string.label_cappuccino);
+                mDrinkQty[2] = mDrinkQty[2] + 1;
+                quantity = mDrinkQty[2];
+                mResourceArr[2] = resource = getString(R.string.label_cappuccino_qty);
+                display(quantity, resource);
+                break;
+            case R.id.button_coffee_decrease:
+                mDrinkChoice[0] = getString(R.string.label_coffee);
+                mDrinkQty[0] = (mDrinkQty[0] == 0) ? 0 :  (mDrinkQty[0] - 1);
+                quantity = mDrinkQty[0];
+                resource = getString(R.string.label_coffee_qty);
+                display(quantity, resource);
+                break;
+            case R.id.button_latte_decrease:
+                mDrinkChoice[1] = getString(R.string.label_latte);
+                mDrinkQty[1] = (mDrinkQty[1] == 0) ? 0 :  (mDrinkQty[1] - 1);
+                quantity = mDrinkQty[1];
+                resource = getString(R.string.label_latte_qty);
+                display(quantity, resource);
+                break;
+            case R.id.button_cappuccino_decrease:
+                mDrinkChoice[2] = getString(R.string.label_cappuccino);
+                mDrinkQty[2] = (mDrinkQty[2] == 0) ? 0 :  (mDrinkQty[2] - 1);
+                quantity = mDrinkQty[2];
+                resource = getString(R.string.label_cappuccino_qty);
+                display(quantity, resource);
+                break;
+            case R.id.button_submit_order:
+                submitOrder();
                 break;
         }
-        display(quantity, resource);
+
     }
 
-    /** This method decrements the quantity on screen. **/
-    public void decrement(View view) {
-        String resource = "";
-        int quantity = 0;
-
-        switch (view.getId()) {
-            case R.id.coffee_decrease:
-                drinkChoice[0] = getString(R.string.drinkCoffee);
-                drinkQty[0] = (drinkQty[0] == 0) ? 0 :  (drinkQty[0] - 1);
-                quantity = drinkQty[0];
-                resource = "quantity_coffee";
-                break;
-            case R.id.latte_decrease:
-                drinkChoice[1] = getString(R.string.drinkLatte);
-                drinkQty[1] = (drinkQty[1] == 0) ? 0 :  (drinkQty[1] - 1);
-                quantity = drinkQty[1];
-                resource = "quantity_latte";
-                break;
-            case R.id.cappuccino_decrease:
-                drinkChoice[2] = getString(R.string.drinkCappuccino);
-                drinkQty[2] = (drinkQty[2] == 0) ? 0 :  (drinkQty[2] - 1);
-                quantity = drinkQty[2];
-                resource = "quantity_cappuccino";
-                break;
-        }
-        display(quantity, resource);
-    }
-
-    /** This method displays the given quantity value on the screen. **/
+    /**
+     * This method displays the given quantity value on the screen.
+     * @param number, resource
+     */
     private void display(int number, String res) {
         int resID = getResources().getIdentifier(res, "id", getPackageName());
         TextView quantityTextView = (TextView) findViewById(resID);
         quantityTextView.setText("" + number);
     }
 
-    /** This method is called when the order button is clicked. **/
-    public void submitOrder(View view) {
-        if ((drinkQty[0] == 0) && (drinkQty[1] == 0) && (drinkQty[2] == 0)) {
+    /**
+     * This method is called when the order button is clicked.
+     */
+    public void submitOrder() {
+        if ((mDrinkQty[0] == 0) && (mDrinkQty[1] == 0) && (mDrinkQty[2] == 0)) {
             displayAlert();
-        }
-        else {
+        } else {
             displayInvoice();
         }
     }
 
-    /** This method displays alert if order button clicked with no drink is selected **/
+    /**
+     * This method displays alert if order button clicked with no drink is selected
+     */
     public void displayAlert() {
-        TextView alertTextView = (TextView) findViewById(R.id.boxAlert);
-        alertTextView.setVisibility(View.VISIBLE);
-
-        TextView invoiceTextView = (TextView) findViewById(R.id.labelInvoice);
-        invoiceTextView.setVisibility(View.INVISIBLE);
-        TableLayout invoiceTbl = (TableLayout) findViewById(R.id.invoiceTable);
-        invoiceTbl.setVisibility(View.INVISIBLE);
-        TextView thankTextView = (TextView) findViewById(R.id.labelThanks);
-        thankTextView.setVisibility(View.INVISIBLE);
+        mTextViewAlert.setVisibility(View.VISIBLE);
+        mTextViewTitleInvoice.setVisibility(View.INVISIBLE);
+        mTableInvoice.setVisibility(View.INVISIBLE);
+        mTextViewMsg.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * This method displays invoice
+     */
     public void displayInvoice() {
         String drinks = "";
         String priceMessage = "";
@@ -145,41 +215,30 @@ public class MainActivity extends AppCompatActivity {
         Double total = 0.0;
         Double price = 0.0;
 
-        TextView alertTextView = (TextView) findViewById(R.id.boxAlert);
-        alertTextView.setVisibility(View.GONE);
+        mTextViewAlert.setVisibility(View.GONE);
+        mTextViewTitleInvoice.setVisibility(View.VISIBLE);
+        mTableInvoice.setVisibility(View.VISIBLE);
 
-        TextView invoiceTextView = (TextView) findViewById(R.id.labelInvoice);
-        invoiceTextView.setVisibility(View.VISIBLE);
-        TableLayout invoiceTbl = (TableLayout) findViewById(R.id.invoiceTable);
-        invoiceTbl.setVisibility(View.VISIBLE);
-
-        int i;
-        for (i = 0; i < 3; i++) {
-            if (drinkQty[i] > 0) {
-                drinks = drinks + drinkChoice[i] + " " + " x " + drinkQty[i] + "\n\n";
-                price = drinkQty[i] * drinkPrice[i];
+        for (int i = 0; i < 3; i++) {
+            if (mDrinkQty[i] > 0) {
+                drinks = drinks + mDrinkChoice[i] + " " + " x " + mDrinkQty[i] + "\n\n";
+                price = mDrinkQty[i] * mDrinkPrice[i];
                 priceFormatted = String.format("%.2f", price);
                 priceMessage = priceMessage + "£" + priceFormatted + "\n\n";
                 total = total + price;
             }
         }
 
-        TextView drinksTextView = (TextView) findViewById(R.id.selected_drinks);
-        drinksTextView.setText(drinks);
-        TextView priceTextView = (TextView) findViewById(R.id.selected_drinks_price);
-        priceTextView.setText(priceMessage);
-
-        TextView totalTextView = (TextView) findViewById(totallabel);
-        totalTextView.setText(getString(R.string.label_total));
+        mTextViewSelectedDrinks.setText(drinks);
+        mTextViewSelectedDrinksPrice.setText(priceMessage);
+        mTextViewTotal.setText(getString(R.string.label_total));
 
         totalMessage = "£" + String.format("%.2f", total);
-        TextView totalpriceTextView = (TextView) findViewById(R.id.total_price);
-        totalpriceTextView.setText(totalMessage);
+        mTextViewTotalPrice.setText(totalMessage);
 
-        TextView thankTextView = (TextView) findViewById(R.id.labelThanks);
-        thankTextView.setVisibility(View.VISIBLE);
+        mTextViewMsg.setVisibility(View.VISIBLE);
 
-        View targetView = findViewById(R.id.labelThanks);
-        targetView.getParent().requestChildFocus(targetView,targetView);
+    /*    View targetView = findViewById(R.id.labelThanks);
+        targetView.getParent().requestChildFocus(targetView,targetView);*/
     }
 }
