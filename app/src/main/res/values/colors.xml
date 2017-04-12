@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#795548</color>
-    <color name="colorPrimaryDark">#3e2723</color>
-    <color name="colorAccent">#efebe9</color>
+    <color name="colorPrimaryDark">#3E2723</color>
+    <color name="colorAccent">#EFEBE9</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorOrderButton">#a87039</color>
-    <color name="drinkChoice">#d7ccc8</color>
-    <color name="colorAlert">#ffcdd2</color>
-    <color name="colorMsgAlert">#d50000</color>
+    <color name="colorOrderButton">#A87039</color>
+    <color name="drinkChoice">#D7CCC8</color>
+    <color name="colorAlert">#FFCDDD2</color>
+    <color name="colorMsgAlert">#D50000</color>
 </resources>
