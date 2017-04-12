@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             for (int i = 0; i < 3; i++) {
                 display(mDrinkQty[i], mResourceArr[i]);
             }
+            // Display alert if order is placed with no drink selected
             if ((mDrinkQty[0] == 0) && (mDrinkQty[1] == 0) && (mDrinkQty[2] == 0)) {
                 displayAlert();
             }
@@ -187,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * This method is called when the order button is clicked.
      */
     public void submitOrder() {
+        // Display alert if order is placed with no drink selected
         if ((mDrinkQty[0] == 0) && (mDrinkQty[1] == 0) && (mDrinkQty[2] == 0)) {
             displayAlert();
         } else {
