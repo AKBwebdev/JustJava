@@ -1,5 +1,5 @@
 # JustJava app
-*Created as part of Udacity's Android Basics Nanodegree Program*
+*Created as part of Udacity's Android Basics by Google Nanodegree Program*
 __________
 
 
